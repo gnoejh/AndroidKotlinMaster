@@ -1,3 +1,7 @@
+// Explicit Intent
+//https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW
+
+
 package com.example.intentexplicit
 
 import android.content.Intent
