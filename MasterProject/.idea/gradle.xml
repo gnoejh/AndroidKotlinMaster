@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/fragment_interface" />
             <option value="$PROJECT_DIR$/intent_explicit" />
             <option value="$PROJECT_DIR$/intent_implicit" />
+            <option value="$PROJECT_DIR$/intentimplicit2" />
             <option value="$PROJECT_DIR$/recycler_view" />
             <option value="$PROJECT_DIR$/recycler_view_affirmations" />
           </set>
