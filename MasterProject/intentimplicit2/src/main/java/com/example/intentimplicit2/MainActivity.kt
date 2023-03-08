@@ -4,7 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+//import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,49 +15,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnDial.setOnClickListener {
-            val phoneNumber = etPhoneNumber.text.toString()
-            val intent = Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:$phoneNumber")
-            }
-            startActivity(intent)
-        }
+        findViewById<Button>(R.id.btn).setOnClickListener {
+            val inputText = findViewById<EditText>(R.id.etInput).text.toString()
 
-        btnCall.setOnClickListener {
-            val phoneNumber = etPhoneNumber.text.toString()
-            val intent = Intent(Intent.ACTION_CALL).apply {
-                data = Uri.parse("tel:$phoneNumber")
+            when {
+                // Dial Intent
+                inputText.matches(Regex("^[0-9]{10}$")) -> {
+                    val intent = Intent(Intent.ACTION_DIAL).apply {
+                        data = Uri.parse("tel:$inputText")
+                    }
+                    startActivity(intent)
+                }
+                // Web Intent
+                inputText.startsWith("http") -> {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(inputText)
+                    }
+                    startActivity(intent)
+                }
+                // Map Intent
+                inputText.matches(Regex(".*[0-9].*,.*[0-9].*")) -> {
+                    // Tashkent: @41.2995,69.2401,12z
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse("geo:$inputText")
+                    }
+                    startActivity(intent)
+                }
+                // Email Intent
+                inputText.contains("@") -> {
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "message/rfc822"
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(inputText))
+                    }
+                    startActivity(intent)
+                }
+                else -> {
+                    Toast.makeText(this, "Please enter valid data", Toast.LENGTH_SHORT).show()
+                }
             }
-            startActivity(intent)
-        }
-
-        btnWeb.setOnClickListener {
-            val url = etUrl.text.toString()
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("https://$url")
-            }
-            startActivity(intent)
-        }
-
-        btnMap.setOnClickListener {
-            val location = etLocation.text.toString()
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("geo:0,0?q=$location")
-            }
-            startActivity(intent)
-        }
-
-        btnEmail.setOnClickListener {
-            val recipient = etRecipient.text.toString()
-            val subject = etSubject.text.toString()
-            val message = etMessage.text.toString()
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "message/rfc822"
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
-                putExtra(Intent.EXTRA_SUBJECT, subject)
-                putExtra(Intent.EXTRA_TEXT, message)
-            }
-            startActivity(intent)
         }
     }
 }
