@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Master Project"
+include ':app'
+include ':recycler_view'
+include ':recycler_view_affirmations'
+include ':fragment'
+include ':fragment_interface'
+include ':app_tip_calculator'
